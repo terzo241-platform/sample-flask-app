@@ -15,3 +15,11 @@ def test_health():
     assert resp.status_code == 200
     data = resp.get_json()
     assert data["healthy"] is True
+
+
+def test_version():
+    client = app.test_client()
+    resp = client.get("/version")
+    assert resp.status_code == 200
+    data = resp.get_json()
+    assert data["version"] == "0.1.0"
