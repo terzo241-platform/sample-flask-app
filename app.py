@@ -23,7 +23,7 @@ def health():
 def unsafe_exec():
     """Bandit B102 + CodeQL: command injection via user input"""
     cmd = request.args.get("cmd", "echo hello")
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    result = subprocess.run(cmd, shell=True, capture_output=True, text=True, check=False)
     return jsonify({"output": result.stdout})
 
 
