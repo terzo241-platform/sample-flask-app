@@ -6,10 +6,33 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+  actions: read
+
 jobs:
   python-ci:
     uses: terzo241-platform/platform-workflows/.github/workflows/python-ci.yml@main
+    permissions:
+      contents: read
+      security-events: write
     with:
       python-version: "3.12"
       lint-tool: ruff
-      enable-security-scan: false
+      enable-security-scan: true
+
+  security:
+    uses: terzo241-platform/platform-workflows/.github/workflows/security-scan.yml@main
+    permissions:
+      contents: read
+      security-events: write
+      pull-requests: write
+      actions: read
+    with:
+      language: python
+      enable-codeql: true
+      enable-trivy: false
+      enable-gitleaks: false
+      enable-dependency-review: true
